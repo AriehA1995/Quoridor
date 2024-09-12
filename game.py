@@ -894,17 +894,7 @@ class Player:
             pygame.draw.rect(self.game.window, self.color, dictionnary[(self.rotation - self.game.currentPlayer.rotation) % 360])
         except AttributeError:
             print (f"Can't draw {self.name} player.")
-
-class AIPlayer (Player):
-    @property
-    def isAi (self):
-        """ override isAi property """
-        return True
-    
-    def autoAction (self):
-        self.move ("top")
-        print (f"{self.name} moved top.")
-        
+      
 class QuoridorGame:
     """
     QuoridorGame is the class for the game.
@@ -994,10 +984,7 @@ class QuoridorGame:
             rotations = (0,90,180,270)
         self.board = Board(w, h)
         for index, player in enumerate (self.settings["players"]):
-            if player in self.settings["ai-players"]:
-                newPlayer = AIPlayer(player, self.settings["players-colors"][playersNum][index], position[index])
-            else:
-                newPlayer = Player(player, self.settings["players-colors"][playersNum][index], position[index])
+            newPlayer = Player(player, self.settings["players-colors"][playersNum][index], position[index])
             newPlayer.game = self
             newPlayer.rotation = rotations[index]
         self.currentPlayer = self.players[0]
@@ -1260,19 +1247,6 @@ if __name__ == "__main__":
                 break
         else:
             error (f"Command {cmd} is not a command. Type \"help\" for more information.")
-        while game.running and game.currentPlayer.isAi:
-            #the AI player will play and than go to the next player
-            if game.displayed:
-                #display the current stat, and wait a second until the AI player will play
-                pygame.time.delay (1000)
-            game.currentPlayer.autoAction ()
-            game.nextPlayer()
-            if game.displayed:
-                game.draw()
-            if game.winner: #in case that the AI player won the game
-                print (f"{game.winner.name} won!")
-            else:
-                print (f"{game.currentPlayer.name} turn.")
         print ()
         line = input ("Command >> ")
         if game.displayed:

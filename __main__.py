@@ -6,7 +6,7 @@ import pygame
 from game import QuoridorGame
 from guiutil import Text, Button, msgBox
 from threading import Thread, Lock
-from tkinter import Tk, Frame, Label, Button as tkButton, Radiobutton, Checkbutton, Entry, IntVar, StringVar
+from tkinter import Tk, Frame, Label, Button as tkButton, Radiobutton, Entry, IntVar, StringVar
 
 class MyGame (QuoridorGame):
     """
@@ -125,12 +125,6 @@ class MyGame (QuoridorGame):
                             playersNames.pop()  
                         entries.pop()
                         entries.pop()
-                        for box in checkBoxs [2:]:
-                            #delete the input box
-                            box.destroy()
-                            aiPlayersNames.pop()  
-                        checkBoxs.pop()
-                        checkBoxs.pop()
                         for index, label in enumerate (labels):
                             #change color for labels
                             label.config (fg= self.settings["players-colors"][2][index])
@@ -143,8 +137,6 @@ class MyGame (QuoridorGame):
                             else:
                                 name = "Player " + str(n)
                             playersNames.append (StringVar (value = name))
-                            isAi = name in self.settings["ai-players"]
-                            aiPlayersNames.append(IntVar (value = isAi))
                             #add the label
                             newLabel = Label (frame, text = "Player " + str (n) + " name:")
                             labels.append (newLabel)
@@ -153,23 +145,14 @@ class MyGame (QuoridorGame):
                             newEntry = Entry (frame, textvariable = playersNames[n-1])
                             entries.append (newEntry)
                             newEntry.grid (row = n + 2, column = 2)
-                            #add check box for ai player
-                            newCheckBox = Checkbutton (frame, text="AI Player", variable=aiPlayersNames[n-1])
-                            checkBoxs.append (newCheckBox)
-                            newCheckBox.grid (row = n + 2, column = 3)
                         for index, label in enumerate (labels):
                             #change the color
                             label.config (fg= self.settings["players-colors"][4][index])
                 
             def setupAndStart ():
                 players = list(map(lambda nameVar: nameVar.get(), playersNames))
-                aiPlayers = []
-                for i, player in enumerate (players):
-                    if aiPlayersNames[i].get():
-                        aiPlayers.append (player)
                         
                 self.setup (players= players,
-                            ai_players = aiPlayers,
                             board_width = boardSize.get(),
                             board_height = boardSize.get())
                 win.destroy()
@@ -188,11 +171,8 @@ class MyGame (QuoridorGame):
             #every entry affect another variable
             playersNames = []
             #list of ai players
-            aiPlayersNames = []
             for name in self.settings["players"]:
                 playersNames.append(StringVar (value = name))
-                isAi = name in self.settings["ai-players"]
-                aiPlayersNames.append(IntVar (value = isAi))
             #variable for board size
             boardSize = IntVar (value = self.settings ["board-width"])
 
@@ -201,7 +181,6 @@ class MyGame (QuoridorGame):
             Radiobutton (frame, text="4", value=4, variable = playersNum, command=addPlayers).grid (row=2, column=2)
             labels = []
             entries = []
-            checkBoxs = []
             for n in range (1, len (self.settings["players"]) + 1):
                 #add the text with color
                 newLabel = Label (frame, text = "Player " + str (n) + " name:", padx=10, fg=self.settings["players-colors"][len (self.settings["players"])][n-1])
@@ -211,10 +190,6 @@ class MyGame (QuoridorGame):
                 newEntry = Entry (frame, textvariable = playersNames[n-1])
                 entries.append (newEntry)
                 newEntry.grid (row = n + 2, column = 2)
-                #add check box for ai player
-                newCheckBox = Checkbutton (frame, text="AI Player", variable=aiPlayersNames[n-1])
-                checkBoxs.append (newCheckBox)
-                newCheckBox.grid (row = n + 2, column = 3)
 
             #Configure the board size
             Label (frame, text="Board Size:", font=("Arial", 16, "bold"), pady = 15, padx = 15).grid (row=7, column=1, columnspan=3)
