@@ -1,6 +1,7 @@
 """
 This module is for all the AI components in the game.
 Include the path finding algorithm and the definition of AIPlayer.
+some change
 """
 from queue import Queue
 
