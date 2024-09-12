@@ -1,0 +1,29 @@
+
+Quoridor game
+**************
+
+Welcome to the command prompt version of the Quoridor game!
+
+All the arguments are space delimited.
+================
+List of commands:
+================
+
+"block" - add a block to the board. Can not be executed if the game has not started (with the command "start").
+	Accept 3 arguments.
+	First: determine if the block is horizontal (=0) or vertical (=1). Can be a string.
+	Second: The x value of the cell on the right of the block.
+	Third: The y value of the cell on the right of the block.
+"display" - display the game window with the current state of the game.
+	Accept 1 or 2 arguments that determine the size of the screen (must be integers). First is the width, second is the height.
+	If 1 argument given, the screen will be a square.
+	If 0 arguments given, the size will be 500x500 pixels.
+"exit" - exit the game.
+"close" - close the game window.
+"help" - view the list of the commands.
+"move" - move the player to the designated direction. Can not be executed if the game has not started (with the command "start").
+	Accept 1 argument that is the wanted direction.
+"start" - start the game. Can be executed only if the game has not started (with the command "start").
+"status" - print the current status of the game, including players details, board properties and blocks.
+
+***
