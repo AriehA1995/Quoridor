@@ -9,7 +9,7 @@ classes defined here:
 """
 
 import pygame
-from ai import findPath
+from ai import findPath, findAction
 import json
 
 class Cell:
@@ -442,10 +442,8 @@ class Board:
                     self.blocks.append (newBlock)
                     return newBlock
                 else:
-                    print (cell)
                     raise Exception ("There is already a block here")
             except Exception as e:
-                print (e)
                 return None
         else:
             return None
@@ -751,13 +749,13 @@ class Player:
             gameInstance.players.append (self)
             self.blocks = gameInstance.board.MAX_BLOCKS // len (gameInstance.settings["players"])
             x, y, w, h = (*self.position, gameInstance.board.width, gameInstance.board.height)
-            if x == 1:
+            if x == 1: #player in left column - target is last column
                 self.__target = ("x", w)
-            elif x == w:
+            elif x == w: #player in right column - target is first column
                 self.__target = ("x", 1)
-            elif y == h:
+            elif y == h: #player in top row - target is first row
                 self.__target = ("y", 1)
-            else: #default target: top row
+            else: #player in bottom row - default target: top row
                 self.__target = ("y", h)
         else:
             self.__game.players.remove (self)
@@ -902,8 +900,9 @@ class AIPlayer (Player):
         return True
     
     def autoAction (self):
-        self.move ("top")
-        print (f"{self.name} moved top.")
+        action = findAction (self)
+        action ()
+        print (action)
         
 class QuoridorGame:
     """
