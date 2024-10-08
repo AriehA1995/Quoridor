@@ -1,10 +1,9 @@
 """
 This module is for all the AI components in the game.
 Include the path finding algorithm and the definition of AIPlayer.
-I work on the feature of AIPlayer, not finished yet
 """
 from queue import Queue
-      
+
 class Action:
     """
     This class define an optional action
@@ -119,7 +118,7 @@ def findPath (player)-> list:
             q.put (newPath)
             
     return []
-          
+        
 def findAction (player):
     """
     This function find the best action for a player to do
@@ -183,21 +182,13 @@ def findAction (player):
             #the default action will be block if the player is losing
             moveAction = action
     return moveAction
-            
+         
+    
 if __name__ == "__main__":
     from game import QuoridorGame, pygame
     pygame.init()
     game = QuoridorGame ()
     game.start()
-    game.board.addBlock (0, 4, 5)
-    game.board.addBlock (0, 6, 8)
-    path = findPath (game.currentPlayer)
-    game.displayed = True
-    for cell in path:
-        pygame.time.delay (250)
-        game.window.fill ((255,255,0), cell.rect)
-        pygame.draw.rect (game.window, (0,0,0), cell.rect, 1)
-        pygame.display.update()
     game.currentPlayer.cell = game.board.index (1,6)
     game.players[1].cell = game.board.index (9,2)
     game.board.addBlock (0, 1, 7)
