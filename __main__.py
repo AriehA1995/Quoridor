@@ -247,7 +247,6 @@ class MyGame (QuoridorGame):
         """
         player = self.currentPlayer
         if not player.isAi:
-            index = self.players.index(player)
             if player.currentAction == "block":
                 absGap = self.coloredOption.absoluteGapForBlock
                 if not player.addBlock (absGap.direction, absGap.rightCell):
@@ -257,12 +256,13 @@ class MyGame (QuoridorGame):
                 self.board.currentGap = None
             else:
                 player.cell = self.coloredOption
-            self.texts[index + 3].text = f"{player.name}: {player.blocks}"
             self.coloredOption = None
             self.uncoloredOption = None
             self.optionFixed = False
+        index = self.players.index(player)
+        self.texts[index + 3].text = f"{player.name}: {player.blocks}"
         super().nextPlayer()
-        if self.running:
+        if self.running and not self.currentPlayer.isAi:
             self.changeActionButton.text = "Block"
             self.turnText.text = self.currentPlayer.name + "'s turn"
             self.turnText.textColor = self.currentPlayer.color
@@ -448,5 +448,5 @@ if __name__ == "__main__":
                             else:
                                 game.nextPlayer()
                 
-    #outside of the loop, displayed attribut is False
+    #outside of the loop, displayed attribute is False
     game.close()
