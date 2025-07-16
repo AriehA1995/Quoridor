@@ -1,4 +1,4 @@
-# Mini Game Development Projects
+# Quoridor Game
 Quoridor is a game where the players have to get to the other side of the board. They can block each other with some blocks.
 Developed to practice programming and game design using Python and PyGame.
 ## Technologies Used
